@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0E0A09">
+<meta name="description" content="Rutina de entrenamiento personal, sincronizada entre tus dispositivos">
+<title>Askesis</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Askesis">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ RITUAL DE ENTRADA — llama + frase del día ============ -->
+<div id="ritual" class="ritual" tabindex="-1" aria-live="polite">
+  <div class="ritual-glow" aria-hidden="true"></div>
+  <div class="ritual-flame-wrap" aria-hidden="true">
+    <svg class="ritual-flame" viewBox="0 0 200 300" role="img" aria-label="Llama">
+      <defs>
+        <!-- Bordes irregulares, como trazo a mano; la frecuencia respira lento -->
+        <filter id="f-rough" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.028 0.05" numOctaves="2" seed="7" result="n">
+            <animate attributeName="baseFrequency" dur="4.2s" values="0.028 0.05;0.034 0.07;0.028 0.05" repeatCount="indefinite"/>
+          </feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <filter id="f-ink" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="2" seed="3" result="n"/>
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <filter id="f-soft"><feGaussianBlur stdDeviation="3.5"/></filter>
+        <linearGradient id="g-outer" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2E0607"/>
+          <stop offset=".55" stop-color="#5E0F12"/>
+          <stop offset="1" stop-color="#7A1517"/>
+        </linearGradient>
+        <linearGradient id="g-mid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#5A0E10"/>
+          <stop offset="1" stop-color="#9A1F1B"/>
+        </linearGradient>
+        <linearGradient id="g-inner" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#8E1C18"/>
+          <stop offset="1" stop-color="#B8361F"/>
+        </linearGradient>
+        <radialGradient id="g-core" cx=".5" cy=".75" r=".6">
+          <stop offset="0" stop-color="#D2602F"/>
+          <stop offset="1" stop-color="#A12A1C"/>
+        </radialGradient>
+        <!-- Sombreado a plumilla dentro de la llama exterior -->
+        <pattern id="p-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
+          <line x1="0" y1="0" x2="0" y2="6" stroke="#1E0405" stroke-width="1.1" stroke-opacity=".55"/>
+        </pattern>
+        <clipPath id="c-outer"><path d="M100 290 C 40 285, 22 230, 38 180 C 50 140, 78 120, 80 80 C 82 55, 70 35, 62 15 C 100 35, 128 70, 132 110 C 134 130, 128 145, 138 150 C 146 140, 148 125, 146 110 C 172 140, 182 185, 172 225 C 162 265, 140 288, 100 290 Z"/></clipPath>
+      </defs>
+
+      <g class="fl fl-outer" filter="url(#f-rough)">
+        <path d="M100 290 C 40 285, 22 230, 38 180 C 50 140, 78 120, 80 80 C 82 55, 70 35, 62 15 C 100 35, 128 70, 132 110 C 134 130, 128 145, 138 150 C 146 140, 148 125, 146 110 C 172 140, 182 185, 172 225 C 162 265, 140 288, 100 290 Z" fill="url(#g-outer)"/>
+        <g clip-path="url(#c-outer)"><rect x="0" y="0" width="200" height="190" fill="url(#p-hatch)"/></g>
+      </g>
+      <path class="fl fl-ink" filter="url(#f-ink)" fill="none" stroke="#1A0304" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
+        d="M100 290 C 40 285, 22 230, 38 180 C 50 140, 78 120, 80 80 C 82 55, 70 35, 62 15 C 100 35, 128 70, 132 110 C 134 130, 128 145, 138 150 C 146 140, 148 125, 146 110 C 172 140, 182 185, 172 225 C 162 265, 140 288, 100 290"/>
+      <g class="fl fl-mid" filter="url(#f-rough)">
+        <path d="M100 285 C 62 282, 48 245, 58 205 C 66 175, 88 160, 92 128 C 94 110, 90 95, 86 80 C 112 100, 126 130, 124 160 C 123 172, 128 180, 134 176 C 150 200, 152 235, 140 258 C 130 276, 118 285, 100 285 Z" fill="url(#g-mid)"/>
+      </g>
+      <path class="fl fl-mid fl-ink-mid" filter="url(#f-ink)" fill="none" stroke="#2A0506" stroke-width="1.1" stroke-linecap="round" stroke-opacity=".55"
+        d="M100 285 C 62 282, 48 245, 58 205 C 66 175, 88 160, 92 128 C 94 110, 90 95, 86 80 C 112 100, 126 130, 124 160 C 123 172, 128 180, 134 176 C 150 200, 152 235, 140 258 C 130 276, 118 285, 100 285"/>
+      <g class="fl fl-inner" filter="url(#f-rough)">
+        <path d="M100 282 C 76 280, 68 255, 74 230 C 80 208, 96 196, 100 172 C 112 190, 124 210, 124 235 C 124 262, 116 281, 100 282 Z" fill="url(#g-inner)"/>
+      </g>
+      <g class="fl fl-core">
+        <path filter="url(#f-soft)" d="M100 280 C 86 279, 82 266, 86 254 C 90 243, 98 238, 100 226 C 108 238, 116 250, 114 262 C 112 274, 108 280, 100 280 Z" fill="url(#g-core)" opacity=".85"/>
+      </g>
+      <!-- Pequeñas brasas -->
+      <g class="embers" fill="#A8301E">
+        <circle class="em em1" cx="92" cy="120" r="1.8"/>
+        <circle class="em em2" cx="112" cy="140" r="1.4"/>
+        <circle class="em em3" cx="100" cy="100" r="1.2"/>
+        <circle class="em em4" cx="84" cy="150" r="1.5"/>
+      </g>
+    </svg>
+  </div>
+
+  <figure class="ritual-quote">
+    <span class="ritual-mark" aria-hidden="true">“</span>
+    <blockquote class="ritual-quote-text"></blockquote>
+    <figcaption class="ritual-quote-author"></figcaption>
+  </figure>
+
+  <div class="ritual-foot">
+    <div class="ritual-progress"><div class="ritual-progress-fill"></div></div>
+    <div class="ritual-hint" aria-live="polite"></div>
+  </div>
+</div>
+
+<!-- ============ PANTALLA DE AUTENTICACIÓN ============ -->
+<div id="auth-shell" class="auth-shell hidden">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <svg class="ab-icon" width="30" height="45" viewBox="0 0 200 300" aria-hidden="true"><path d="M100 290 C 40 285, 22 230, 38 180 C 50 140, 78 120, 80 80 C 82 55, 70 35, 62 15 C 100 35, 128 70, 132 110 C 134 130, 128 145, 138 150 C 146 140, 148 125, 146 110 C 172 140, 182 185, 172 225 C 162 265, 140 288, 100 290 Z" fill="#B3261E"/><path d="M100 282 C 76 280, 68 255, 74 230 C 80 208, 96 196, 100 172 C 112 190, 124 210, 124 235 C 124 262, 116 281, 100 282 Z" fill="#E8742F"/></svg>
+      <h1>Askesis</h1>
+      <p>ἄσκησις — la práctica que forja</p>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login">Iniciar sesión</button>
+      <button class="auth-tab" id="tab-register">Crear cuenta</button>
+    </div>
+
+    <div id="auth-error" class="auth-error hidden"></div>
+
+    <form id="auth-form">
+      <div class="field">
+        <label for="auth-email">Correo</label>
+        <input type="email" id="auth-email" autocomplete="email" required placeholder="tu@correo.com">
+      </div>
+      <div class="field">
+        <label for="auth-password">Contraseña</label>
+        <div class="password-wrap">
+          <input type="password" id="auth-password" autocomplete="current-password" required placeholder="Mínimo 6 caracteres" minlength="6">
+          <button type="button" id="toggle-password" class="password-toggle" aria-label="Mostrar contraseña">
+            <svg id="eye-open" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg id="eye-closed" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a20.3 20.3 0 0 1 4.22-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a20.28 20.28 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="btn-primary" id="auth-submit">Iniciar sesión</button>
+    </form>
+    <button type="button" id="auth-forgot" class="auth-forgot">¿Olvidaste tu contraseña?</button>
+
+    <div class="auth-divider"><span>o</span></div>
+    <button type="button" id="auth-google-btn" class="btn-google">
+      <svg width="18" height="18" viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.6 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.5 13.2l7.9 6.1C12.3 13 17.6 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.6H24v9.1h12.6c-.5 3-2.2 5.5-4.7 7.2l7.3 5.7c4.2-3.9 6.7-9.7 6.7-17.4z"/>
+        <path fill="#FBBC05" d="M10.4 28.3c-.5-1.5-.8-3-.8-4.6s.3-3.1.8-4.6l-7.9-6.1C.9 15.9 0 19.8 0 23.7s.9 7.8 2.5 10.7l7.9-6.1z"/>
+        <path fill="#34A853" d="M24 47.4c6.2 0 11.5-2 15.3-5.6l-7.3-5.7c-2 1.4-4.7 2.2-8 2.2-6.4 0-11.7-4.3-13.6-10.1l-7.9 6.1C6.5 42 14.6 47.4 24 47.4z"/>
+      </svg>
+      Continuar con Google
+    </button>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" class="app-shell hidden">
+
+  <header class="topbar">
+    <div class="brand" id="brand-home">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>
+      <span>Askesis</span>
+      <span id="sync-pill" class="sync-pill" title="Estado de sincronización"></span>
+    </div>
+    <div style="position:relative;">
+      <button id="btn-menu" class="icon-btn" aria-label="Más opciones">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+      </button>
+      <div id="menu-popover" class="menu-popover hidden">
+        <button class="menu-popover-item" id="btn-go-config">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Configuración
+        </button>
+        <button class="menu-popover-item" id="btn-go-historial">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+          Historial
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div id="day-selector-wrap" class="day-selector-wrap">
+    <button id="day-selector-btn" class="day-selector-btn"></button>
+    <div id="day-dropdown" class="day-dropdown hidden"></div>
+  </div>
+
+  <main id="main-content" class="main-content"></main>
+
+  <div id="toast" class="toast hidden"></div>
+</div>
+
+<script src="vendor/xlsx.full.min.js"></script>
+<script type="module" src="ritual.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
