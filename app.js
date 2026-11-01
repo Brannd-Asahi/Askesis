@@ -7,6 +7,8 @@
 
 import { firebaseConfig } from "./firebase-config.js";
 import { PLANS, TEMAS, DAY_TYPE_COLORS, DEFAULT_PLAN_ID } from "./data.js";
+import { proveerFrase, ritualTerminado } from "./ritual.js";
+import { fraseDelDia, fraseLocal } from "./destino.js";
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 import {
@@ -17,17 +19,17 @@ import {
 import {
   initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
   doc, getDoc, setDoc, deleteDoc, collection,
-  onSnapshot, getDocs,
+  onSnapshot, getDocs, runTransaction,
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 // Mientras firebase-config.js tenga los valores de plantilla, la app lo
 // dice en el login en vez de fallar con un error críptico.
 const FIREBASE_LISTO = !!firebaseConfig.apiKey && !String(firebaseConfig.apiKey).startsWith("PEGA_");
-// Red de seguridad: si ritual.js no cargó o falló, la app no se queda
-// bloqueada detrás de la pantalla de entrada (máx. 50 s + margen).
+// Red de seguridad: si la pantalla de entrada fallara, la app no se queda
+// bloqueada detrás de ella (espera máx. 8 s por la frase + 50 s de lectura + margen).
 const ritualListo = Promise.race([
-  window.__askesisRitual || Promise.resolve(),
-  new Promise((r) => setTimeout(r, 75000)),
+  ritualTerminado,
+  new Promise((r) => setTimeout(r, 90000)),
 ]).then(() => { const el = document.getElementById("ritual"); if (el) el.remove(); });
 
 const fbApp = initializeApp(firebaseConfig);
@@ -82,7 +84,7 @@ function traducirErrorAuth(err) {
     "auth/email-already-in-use": "Ya existe una cuenta con ese correo — intenta iniciar sesión.",
     "auth/weak-password": "La contraseña debe tener al menos 6 caracteres.",
     "auth/network-request-failed": "Sin conexión a internet.",
-    "auth/unauthorized-domain": "Este dominio no está autorizado en Firebase (ver FIREBASE_SETUP.md, paso 6).",
+    "auth/unauthorized-domain": "Este dominio no está autorizado en Firebase (agrégalo en Firebase → Authentication → Settings → Authorized domains).",
     "auth/api-key-not-valid.-please-pass-a-valid-api-key.": "La configuración de Firebase no es válida — revisa firebase-config.js.",
     "auth/invalid-api-key": "La configuración de Firebase no es válida — revisa firebase-config.js.",
   };
@@ -143,7 +145,21 @@ function unsubAll() {
 }
 async function cerrarSesion() { unsubAll(); await signOut(auth); }
 
+// La frase del día: se entrega a la pantalla de entrada una sola vez (la primera
+// resolución de sesión). Con sesión, es la frase compartida entre dispositivos;
+// sin sesión, la copia local (que se registrará al iniciar sesión).
+let fraseEntregada = false;
+function entregarFrase(user) {
+  if (!user) {
+    if (!fraseEntregada) { fraseEntregada = true; proveerFrase(fraseLocal()); }
+    return;
+  }
+  const promesa = fraseDelDia({ doc, getDoc, runTransaction }, db, user.uid);
+  if (!fraseEntregada) { fraseEntregada = true; proveerFrase(promesa); }
+}
+
 onAuthStateChanged(auth, async (user) => {
+  entregarFrase(user);
   await ritualListo; // primero la llama y la frase; luego la app
   if (user) {
     state.uid = user.uid; state.correo = user.email;
@@ -158,7 +174,7 @@ onAuthStateChanged(auth, async (user) => {
     document.body.removeAttribute("data-theme");
     $("#app").classList.add("hidden");
     $("#auth-shell").classList.remove("hidden");
-    if (!FIREBASE_LISTO) showAuthError("Firebase aún no está configurado: pega la configuración del proyecto nuevo en firebase-config.js (ver FIREBASE_SETUP.md).");
+    if (!FIREBASE_LISTO) showAuthError("Firebase aún no está configurado: pega la configuración de tu proyecto en firebase-config.js.");
   }
 });
 
@@ -210,7 +226,7 @@ function attachConfigListener() {
     const data = snap.exists() ? snap.data() : {};
     const planCambio = data.planActivo && data.planActivo !== state.planActivo;
     state.planActivo = data.planActivo || DEFAULT_PLAN_ID;
-    state.tema = data.tema || "base";
+    state.tema = data.tema === "dashboard-completo" ? "brasa" : (data.tema || "base");
     aplicarTema(state.tema);
     if (first) {
       first = false;
@@ -231,6 +247,10 @@ async function guardarConfig(campo, valor) {
 function aplicarTema(temaId) {
   if (temaId === "base") document.body.removeAttribute("data-theme");
   else document.body.setAttribute("data-theme", temaId);
+  // La barra de estado del teléfono toma el color de fondo del tema.
+  const meta = document.querySelector('meta[name="theme-color"]');
+  const m = getComputedStyle(document.body).backgroundColor.match(/\d+/g);
+  if (meta && m) meta.setAttribute("content", "#" + m.slice(0, 3).map((n) => (+n).toString(16).padStart(2, "0")).join(""));
 }
 
 // ============ FIRESTORE: PROGRESO — tiempo real por día ============

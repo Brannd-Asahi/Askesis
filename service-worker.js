@@ -1,7 +1,9 @@
-const CACHE_NAME = "askesis-v2";
+const CACHE_NAME = "askesis-v4";
 const ASSETS = [
-  "./", "./index.html", "./style.css", "./data.js", "./quotes.js", "./ritual.js", "./app.js", "./firebase-config.js",
+  "./", "./index.html", "./style.css", "./data.js", "./quotes.js", "./ritual.js", "./destino.js", "./app.js", "./firebase-config.js",
   "./manifest.json", "./vendor/xlsx.full.min.js", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png", "./favicon.svg", "./favicon-32.png", "./favicon-48.png",
+  "./fonts/libre-caslon-text-latin-400-normal.woff2",
+  "./fonts/jost-latin-400-normal.woff2", "./fonts/jost-latin-500-normal.woff2", "./fonts/jost-latin-600-normal.woff2",
 ];
 const FIREBASE_ASSETS = [
   "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js",

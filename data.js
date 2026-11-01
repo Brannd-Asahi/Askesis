@@ -239,11 +239,12 @@ export const DEFAULT_PLAN_ID = "plan2";
 // ============================================================
 // TEMAS VISUALES — recreados a partir de la paleta real de Sattva.
 // Champán y Dorado Solar se eliminaron por ser redundantes entre sí.
+// "Dashboard completo" se sustituyó por "Brasa" (estilo editorial de la llama).
 // ============================================================
 export const TEMAS = [
   { id: "base", nombre: "Tema Base", color: "#D97757" },
   { id: "japones-shu", nombre: "Japonés · Shu", color: "#B33B2C" },
   { id: "oro-negro", nombre: "Oro sobre negro", color: "#C9A24B" },
   { id: "neumorfismo", nombre: "Neumorfismo soft UI", color: "#C08A63" },
-  { id: "dashboard-completo", nombre: "Dashboard completo", color: "#E2623C" },
+  { id: "brasa", nombre: "Brasa", color: "#B3261E" },
 ];

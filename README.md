@@ -8,7 +8,7 @@ sincronización en tiempo real entre el Mi 9T y el Z Flip 6.
 
 Es la continuación directa de Ozren v4: mismo código de rutina, historial,
 temas, cronómetro y navegación, con repositorio y base de datos nuevos.
-La puesta en marcha está en **FIREBASE_SETUP.md**.
+Requiere un `firebase-config.js` con la configuración de tu proyecto de Firebase.
 
 ## Lo nuevo en v1.0
 
@@ -17,10 +17,16 @@ Al abrir la app aparece una llama roja oscura, con trazo de aspecto dibujado
 a mano, que arde despacio. Debajo va la **frase del día**. La app no se abre
 hasta que pasa el tiempo. Al terminar aparece *“Toca para comenzar”*.
 
-- **Una frase por día, la misma en los dos teléfonos.** Sale de una
-  permutación fija de las 313 frases indexada por la fecha. No necesita
-  sincronizarse y no repite ninguna hasta completar el ciclo de 313 días
-  (desde el 29-oct-2026).
+- **Una frase por día, sorteada por el azar y fija todo el día.** No hay
+  frases asignadas a fechas. La primera apertura del día, en cualquier
+  dispositivo, sortea una de las 313 con `crypto.getRandomValues` (el
+  generador criptográfico del sistema, sin sesgo) y la guarda en Firestore
+  (`usuarios/{uid}/config/frases`). Desde las 00:00 hasta las 23:59 todos los
+  dispositivos leen esa misma frase. El sorteo va dentro de una transacción,
+  así que dos teléfonos que abren a la vez no pueden fijar frases distintas.
+  No se repiten las 18 frases más recientes (`NO_REPETIR` en `destino.js`).
+  Sin conexión se usa un sorteo local, que se registra al volver la red si
+  nadie había fijado otra antes.
 - **Duración según la longitud** (palabras de la frase):
 
   | Palabras | Tiempo | Frases |
@@ -53,7 +59,7 @@ hasta que pasa el tiempo. Al terminar aparece *“Toca para comenzar”*.
   de la misma cita) y las citas de más de 39 palabras.
 
 ### Otros cambios
-- Iconos: la llama sustituye a la pesa en el icono de instalación (`icons/`), el favicon (`favicon.svg` + PNG de 32/48 px, versión plana que se lee en tamaño pequeño), el icono de iOS y el login.
+- Iconos: la llama sustituye (también en la barra superior y el login) a la pesa en el icono de instalación (`icons/`), el favicon (`favicon.svg` + PNG de 32/48 px, versión plana que se lee en tamaño pequeño), el icono de iOS y el login.
 - Todo renombrado a Askesis: título, manifest, caché del service worker
   (`askesis-v1`), reglas y archivos exportados (`respaldo-askesis-…json`).
 - `firebase-config.js` viene con valores de plantilla. Si faltan, la app lo
@@ -67,5 +73,12 @@ GitHub Desktop → reemplaza archivos → Commit → Push. En cada despliegue su
 apareciendo la versión vieja, borra los datos del sitio en Chrome.
 
 ## Temas (5)
-Tema Base, Japonés · Shu, Oro sobre negro, Neumorfismo soft UI, Dashboard
-completo. Champán y Dorado Solar se quitaron a propósito.
+Tema Base, Japonés · Shu, Oro sobre negro, Neumorfismo soft UI y **Brasa**.
+Champán y Dorado Solar se quitaron a propósito.
+
+- **Brasa** (sustituye a Dashboard completo): fondo negro cálido, rojo oscuro
+  de la llama y naranja brasa; títulos y cifras en Libre Caslon Text,
+  texto y etiquetas en Jost con mayúsculas espaciadas, filas con filetes finos. Las
+  fuentes están en `fonts/` (licencia SIL OFL) y funcionan sin conexión.
+- **Japonés · Shu**: el fondo es papel liso con hilos verticales muy tenues
+  y de separación irregular, sin líneas horizontales.

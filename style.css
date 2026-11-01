@@ -1,3 +1,9 @@
+/* Tipografías del tema Brasa (locales, funcionan sin conexión): Libre Caslon Text + Jost. SIL OFL. */
+@font-face { font-family: "Libre Caslon Text"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/libre-caslon-text-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Jost"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/jost-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Jost"; font-style: normal; font-weight: 500; font-display: swap; src: url("fonts/jost-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Jost"; font-style: normal; font-weight: 600; font-display: swap; src: url("fonts/jost-latin-600-normal.woff2") format("woff2"); }
+
 :root {
   --bg: #EDE7D9;
   --bg-elevated: #F7F3E9;
@@ -34,8 +40,10 @@ html, body {
 }
 
 .hidden { display: none !important; }
+:root:has(body[data-theme="brasa"]) { background: #0E0A09; }
+:root:has(body[data-theme="oro-negro"]) { background: #0B0A08; }
+:root:has(body[data-theme="japones-shu"]) { background: #F3EEE2; }
 
-.loading-screen { min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center; color: var(--text-soft); font-size: 15px; background: var(--bg); }
 
 /* ============ AUTH SCREEN ============ */
 .auth-shell { min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center; padding: 24px 18px; background: var(--bg); }
@@ -261,12 +269,15 @@ html, body {
   --accent: #B33B2C; --accent-dark: #8C2C21; --accent-soft: #F1DCD3;
   --green: #3B6E4A; --green-soft: #EEF3EC; --red: #8C2C21; --red-soft: #F1DCD3;
   --yellow: #8C2C21; --yellow-soft: #F1DCD3; --blue: #8C2C21; --blue-soft: #F1DCD3;
+  /* Papel liso con hilos verticales muy tenues, de separación irregular
+     (periodos primos distintos para que no se note la repetición). Sin líneas horizontales. */
   background-color: var(--bg);
   background-image:
-    radial-gradient(circle at 15% 20%, rgba(179,59,44,0.05) 0, transparent 45%),
-    radial-gradient(circle at 85% 75%, rgba(140,44,33,0.05) 0, transparent 50%),
-    repeating-linear-gradient(0deg, rgba(42,38,33,0.018) 0px, rgba(42,38,33,0.018) 1px, transparent 1px, transparent 3px),
-    repeating-linear-gradient(90deg, rgba(42,38,33,0.014) 0px, rgba(42,38,33,0.014) 1px, transparent 1px, transparent 3px);
+    repeating-linear-gradient(90deg, transparent 0 46px, rgba(90,75,50,0.030) 46px 47px),
+    repeating-linear-gradient(90deg, transparent 0 79px, rgba(255,255,255,0.30) 79px 80px),
+    repeating-linear-gradient(90deg, transparent 0 113px, rgba(90,75,50,0.022) 113px 114px),
+    repeating-linear-gradient(90deg, transparent 0 157px, rgba(255,255,255,0.25) 157px 158px),
+    repeating-linear-gradient(90deg, transparent 0 211px, rgba(90,75,50,0.030) 211px 212px);
   background-attachment: fixed;
 }
 [data-theme="japones-shu"] .ex-card.expanded:not(.done),
@@ -318,15 +329,127 @@ html, body {
 [data-theme="neumorfismo"] .timer-active.running { box-shadow: inset 3px 3px 7px rgba(60,90,85,0.25), inset -3px -3px 7px rgba(255,255,255,0.6); border-color: transparent; }
 [data-theme="neumorfismo"] .timer-active.finished { box-shadow: inset 3px 3px 7px rgba(150,90,60,0.3), inset -3px -3px 7px rgba(255,255,255,0.5); border-color: transparent; }
 
-/* ---------- Dashboard completo ---------- */
-[data-theme="dashboard-completo"] {
-  --bg: #EFECE5; --bg-elevated: #E6E2D8; --card: #FFFFFF; --card-border: #E2DDD2;
-  --text: #26231D; --text-soft: #7C7669; --text-faint: #A9A294;
-  --accent: #E2623C; --accent-dark: #E2623C; --accent-soft: #FBE2D8;
-  --green: #4F8F5C; --green-soft: #E3F1E6; --red: #E2623C; --red-soft: #FBE2D8;
-  --yellow: #C2811A; --yellow-soft: #F7E6C8; --blue: #3F7A72; --blue-soft: #DCEAE7;
-  --radius: 16px; --radius-sm: 12px; --shadow: none;
+/* ---------- Brasa — el estilo editorial de la llama ----------
+   Fondo negro cálido (el mismo de la pantalla de entrada), rojo oscuro de
+   la llama como acento y naranja brasa para los detalles. Títulos y cifras
+   en Libre Caslon Text; texto y etiquetas en Jost con mayúsculas espaciadas; filas
+   separadas por filetes finos en lugar de tarjetas con caja. */
+[data-theme="brasa"] {
+  --bg: #0E0A09; --bg-elevated: #16100E; --card: #17110F; --card-border: #2E211D;
+  --text: #EADFD0; --text-soft: #B5A798; --text-faint: #8F8174;
+  --accent: #B3261E; --accent-dark: #E8742F; --accent-soft: #2A1412;
+  --green: #7FA77A; --green-soft: #141C16; --red: #E0624A; --red-soft: #2A1512;
+  --yellow: #E8742F; --yellow-soft: #2A1B12; --blue: #D9925A; --blue-soft: #241811;
+  --radius: 6px; --radius-sm: 4px; --shadow: none;
+  font-family: "Jost", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg);
+  background-image: radial-gradient(ellipse 90% 40% at 50% 0%, rgba(120,24,20,0.20), transparent 70%);
+  background-repeat: no-repeat;
+  color-scheme: dark;
 }
+[data-theme="brasa"] button, [data-theme="brasa"] input, [data-theme="brasa"] select, [data-theme="brasa"] textarea { font-family: inherit; }
+
+/* Títulos y cifras: serif editorial, peso normal (no hay negrita real) */
+[data-theme="brasa"] .brand,
+[data-theme="brasa"] .back-header h1,
+[data-theme="brasa"] .day-header-title h1,
+[data-theme="brasa"] .day-type-name,
+[data-theme="brasa"] .config-section h2,
+[data-theme="brasa"] .rest-card h2,
+[data-theme="brasa"] .auth-brand h1,
+[data-theme="brasa"] .ex-title .name,
+[data-theme="brasa"] .hist-day-name,
+[data-theme="brasa"] .cal-month-label,
+[data-theme="brasa"] .collapsible-summary,
+[data-theme="brasa"] .plan-card-nombre,
+[data-theme="brasa"] .timer-active .t-num {
+  font-family: "Libre Caslon Text", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-weight: 400; letter-spacing: -0.005em;
+}
+[data-theme="brasa"] .brand { font-size: 22px; letter-spacing: 0.02em; }
+[data-theme="brasa"] .day-header-title h1 { font-size: 32px; line-height: 1.1; }
+[data-theme="brasa"] .day-header-title h1::after {
+  content: ""; display: inline-block; width: 20px; height: 20px; margin-left: 12px;
+  border-radius: 5px; background: var(--accent); vertical-align: 2px;
+}
+[data-theme="brasa"] .day-type-name { font-size: 18px; }
+[data-theme="brasa"] .back-header h1 { font-size: 26px; }
+[data-theme="brasa"] .config-section h2 { font-size: 19px; }
+[data-theme="brasa"] .ex-title .name { font-size: 17px; }
+[data-theme="brasa"] .collapsible-summary { font-size: 16.5px; }
+[data-theme="brasa"] .auth-brand h1 { font-size: 30px; }
+
+/* Etiquetas: mayúsculas espaciadas, como "RESTANTES" */
+[data-theme="brasa"] .opcionales-label,
+[data-theme="brasa"] .activity-graph-title,
+[data-theme="brasa"] .cal-grid-header span,
+[data-theme="brasa"] .side-group-label,
+[data-theme="brasa"] .field label,
+[data-theme="brasa"] .progress-label {
+  text-transform: uppercase; letter-spacing: 0.14em; font-size: 11px; font-weight: 500; color: var(--text-faint);
+}
+[data-theme="brasa"] .day-focus, [data-theme="brasa"] .ex-title .meta, [data-theme="brasa"] .hist-date,
+[data-theme="brasa"] .config-sub, [data-theme="brasa"] .auth-brand p { color: var(--text-faint); letter-spacing: 0.02em; }
+
+/* Filas con filete fino en vez de tarjetas con caja */
+[data-theme="brasa"] .exercise-list { gap: 0; margin-bottom: 0; }
+[data-theme="brasa"] .day-type-name { color: var(--accent-dark) !important; }
+[data-theme="brasa"] .ex-card {
+  background: transparent; border: none; border-bottom: 1px solid var(--card-border); border-radius: 0; box-shadow: none;
+}
+[data-theme="brasa"] .ex-card.opcional-card { border-style: solid; }
+[data-theme="brasa"] .ex-card.done { background: transparent; border-bottom-color: var(--card-border); }
+[data-theme="brasa"] .ex-card.expanded:not(.done) { background: linear-gradient(90deg, rgba(179,38,30,0.10), transparent 70%); box-shadow: inset 2px 0 0 var(--accent); }
+[data-theme="brasa"] .ex-head { padding: 17px 4px; }
+[data-theme="brasa"] .ex-body { border-top: none; padding: 0 4px 16px; }
+[data-theme="brasa"] .ex-badge {
+  width: 34px; height: 34px; border-radius: 7px; background: transparent; border: 1px solid var(--card-border);
+  color: var(--text-soft); font-family: "Libre Caslon Text", Georgia, serif; font-weight: 400; font-size: 15px;
+}
+[data-theme="brasa"] .ex-card.done .ex-badge { background: var(--green); border-color: var(--green); color: #0E0A09; }
+[data-theme="brasa"] .collapsible {
+  background: transparent; border: none; border-bottom: 1px solid var(--card-border);
+  border-radius: 0; margin-bottom: 0;
+}
+[data-theme="brasa"] .day-header + .collapsible, [data-theme="brasa"] .progress-label + .collapsible { border-top: 1px solid var(--card-border); }
+[data-theme="brasa"] .finish-section { margin-top: 28px; }
+[data-theme="brasa"] .collapsible.open { box-shadow: none; }
+[data-theme="brasa"] .collapsible-summary { padding: 15px 4px; }
+[data-theme="brasa"] .collapsible-body { padding: 0 4px 14px; }
+[data-theme="brasa"] .rest-card, [data-theme="brasa"] .activity-graph, [data-theme="brasa"] .hist-card,
+[data-theme="brasa"] .cal-day-detail, [data-theme="brasa"] .config-item, [data-theme="brasa"] .plan-card {
+  background: transparent; border-color: var(--card-border); border-radius: 8px;
+}
+[data-theme="brasa"] .plan-card.activo, [data-theme="brasa"] .tema-swatch.activo { background: var(--accent-soft); border-color: var(--accent); }
+[data-theme="brasa"] .hist-card.rest-entry { background: var(--bg-elevated); }
+[data-theme="brasa"] .cal-cell { background: transparent; border-radius: 6px; }
+
+/* Barras y botones */
+[data-theme="brasa"] .progress-track { height: 3px; border-radius: 2px; }
+[data-theme="brasa"] .progress-fill { border-radius: 2px; background: linear-gradient(90deg, #B3261E, #E8742F); }
+[data-theme="brasa"] .btn-primary,
+[data-theme="brasa"] .btn-complete {
+  border-radius: 6px; font-weight: 600; font-size: 13.5px; letter-spacing: 0.12em; text-transform: uppercase;
+  box-shadow: none; color: #FBEFE6;
+}
+[data-theme="brasa"] .btn-complete { padding: 18px; }
+[data-theme="brasa"] .btn-complete:disabled { background: var(--card-border); color: var(--text-faint); }
+[data-theme="brasa"] .btn-complete.saved { background: var(--green); color: #0E0A09; box-shadow: none; }
+[data-theme="brasa"] .side-btn, [data-theme="brasa"] .set-btn, [data-theme="brasa"] .timer-chip,
+[data-theme="brasa"] .field input, [data-theme="brasa"] .btn-google { border-width: 1px; border-radius: 6px; }
+[data-theme="brasa"] .side-btn.selected, [data-theme="brasa"] .set-btn.checked { background: var(--accent); border-color: var(--accent); color: #FBEFE6; }
+[data-theme="brasa"] .set-btn { font-family: "Libre Caslon Text", Georgia, serif; font-weight: 400; font-size: 16px; }
+[data-theme="brasa"] .timer-active { border-width: 1px; border-radius: 6px; }
+[data-theme="brasa"] .ex-risk { border-left: 2px solid var(--red); border-radius: 0 4px 4px 0; }
+[data-theme="brasa"] .day-selector-btn { background: transparent; }
+[data-theme="brasa"] .day-dropdown, [data-theme="brasa"] .menu-popover { box-shadow: 0 10px 30px rgba(0,0,0,0.55); border-radius: 8px; }
+[data-theme="brasa"] .auth-card { box-shadow: none; border-radius: 10px; }
+[data-theme="brasa"] .toast { background: #EADFD0; color: #0E0A09; }
+[data-theme="brasa"] .hist-pct.full { background: transparent; border: 1px solid var(--green); }
+[data-theme="brasa"] .hist-pct.partial { background: transparent; border: 1px solid var(--yellow); }
+[data-theme="brasa"] .mode-switch { background: var(--card-border); border-radius: 6px; }
+[data-theme="brasa"] .mode-btn.active { background: var(--bg); }
+
 
 /* ============================================================
    RITUAL DE ENTRADA — llama + frase del día
